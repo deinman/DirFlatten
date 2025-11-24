@@ -66,11 +66,11 @@ jobs:
             /p:FileVersion=$env:ASSEMBLY_VERSION `
             /p:AssemblyInformationalVersion=$env:FULLVERSION `
 
-      - name: Upload artifact (single binary)
-          uses: actions/upload-artifact@v4
-          with:
-            name: DirFlatten-linux-x64
-            path: DirFlatten/bin/Release/net10.0/linux-x64/publish/DirFlatten
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DirFlatten-linux-x64
+          path: DirFlatten/bin/Release/net10.0/linux-x64/publish/DirFlatten
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/')
