@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DirFlatten.Tests/DirFlatten.Tests.csproj" />
+  <Project Path="DirFlatten/DirFlatten.csproj" />
+</Solution>
