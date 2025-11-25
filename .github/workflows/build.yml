@@ -56,13 +56,15 @@ jobs:
 
       - name: Build x64
         run: |
-          dotnet publish DirFlatten/DirFlatten.csproj `
-            -c Release `
-            -r linux-x64 `
-            /p:Version=$env:VERSION `
-            /p:AssemblyVersion=$env:ASSEMBLY_VERSION `
-            /p:FileVersion=$env:ASSEMBLY_VERSION `
-            /p:AssemblyInformationalVersion=$env:FULLVERSION `
+          dotnet publish DirFlatten/DirFlatten.csproj \
+            -c Release \
+            -r linux-x64 \
+            /p:DebugType=None \
+            /p:DebugSymbols=false \
+            /p:Version="$VERSION" \
+            /p:AssemblyVersion="$ASSEMBLY_VERSION" \
+            /p:FileVersion="$ASSEMBLY_VERSION" \
+            /p:AssemblyInformationalVersion="$FULLVERSION" \
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
