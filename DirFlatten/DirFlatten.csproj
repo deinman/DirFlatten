@@ -14,9 +14,8 @@
         <Authors>Daniel Inman</Authors>
         <Company>Daniel Inman</Company>
 
-        <!-- Publishing Options - Single-file self-contained -->
-        <PublishSingleFile>true</PublishSingleFile>
-        <SelfContained>true</SelfContained>
+        <!-- Publishing Options - AOT -->
+        <PublishAot>true</PublishAot>
     </PropertyGroup>
 
     <ItemGroup>
