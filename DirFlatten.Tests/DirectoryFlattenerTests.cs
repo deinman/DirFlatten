@@ -9,54 +9,54 @@ public class DirectoryFlattenerTests
     [Fact]
     public void SingleFileDirectory_IsFlattened()
     {
-        var root = CreateTempDir();
+        var dir = CreateTempDir();
         try
         {
-            var movieDir = Path.Combine(root, "Wicked (2024)");
+            var movieDir = Path.Combine(dir.FullName, "Wicked (2024)");
             Directory.CreateDirectory(movieDir);
 
             var file = Path.Combine(movieDir, "Wicked (2024).mkv");
             File.WriteAllText(file, "dummy");
             
-            DirectoryFlattener.FlattenSingleFileDirectories(root);
+            DirectoryFlattener.FlattenSingleFileDirectories(dir);
 
-            var movedFile = Path.Combine(root, "Wicked (2024).mkv");
+            var movedFile = Path.Combine(dir.FullName, "Wicked (2024).mkv");
             Assert.True(File.Exists(movedFile));
             Assert.False(Directory.Exists(movieDir));
         }
         finally
         {
-            Directory.Delete(root, recursive: true);
+            Directory.Delete(dir.FullName, recursive: true);
         }
     }
 
     [Fact]
     public void MultiFileDirectory_IsNotFlattened()
     {
-        var root = CreateTempDir();
+        var dir = CreateTempDir();
         try
         {
-            var movieDir = Path.Combine(root, "What we do in the Shadows (2014)");
+            var movieDir = Path.Combine(dir.FullName, "What we do in the Shadows (2014)");
             Directory.CreateDirectory(movieDir);
 
             File.WriteAllText(Path.Combine(movieDir, "a.mp4"), "dummy");
             File.WriteAllText(Path.Combine(movieDir, "a.srt"), "dummy");
 
-            DirectoryFlattener.FlattenSingleFileDirectories(root);
+            DirectoryFlattener.FlattenSingleFileDirectories(dir);
 
             Assert.True(Directory.Exists(movieDir));
             Assert.Equal(2, Directory.GetFiles(movieDir).Length);
         }
         finally
         {
-            Directory.Delete(root, recursive: true);
+            Directory.Delete(dir.FullName, recursive: true);
         }
     }
 
-    private static string CreateTempDir()
+    private static DirectoryInfo CreateTempDir()
     {
         var path = Path.Combine(Path.GetTempPath(), "FlattenTest_" + Guid.NewGuid());
-        Directory.CreateDirectory(path);
-        return path;
+        var dirInfo = Directory.CreateDirectory(path);
+        return dirInfo;
     }
 }

@@ -1,12 +1,25 @@
-﻿using DirFlatten;
+﻿using System.CommandLine;
+using DirFlatten;
 
-// Root directory to process: pass as first arg or use current directory
-var root = args.Length > 0 ? args[0] : Directory.GetCurrentDirectory();
+var rootCommand = new RootCommand("DirFlatten");
 
-if (!Directory.Exists(root))
+// dir argument: optional, defaults to current directory if omitted
+var dirArgument = new Argument<DirectoryInfo?>("dir")
 {
-    Console.WriteLine($"Directory does not exist: {root}");
-    return;
-}
+    Description = "Root directory to flatten (defaults to current directory)",
+    Arity = ArgumentArity.ZeroOrOne
+};
 
-DirectoryFlattener.FlattenSingleFileDirectories(root);
+var flattenCommand = new Command("flatten", "Flatten the directory");
+flattenCommand.Arguments.Add(dirArgument);
+
+flattenCommand.SetAction(parseResult =>
+{
+    var dir = parseResult.GetValue(dirArgument);
+    DirectoryFlattener.FlattenSingleFileDirectories(dir);
+});
+
+rootCommand.Subcommands.Add(flattenCommand);
+
+// Parse & invoke
+return rootCommand.Parse(args).Invoke();

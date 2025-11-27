@@ -2,12 +2,25 @@ namespace DirFlatten;
 
 public static class DirectoryFlattener
 {
-    public static void FlattenSingleFileDirectories(string root)
+    public static void FlattenSingleFileDirectories(DirectoryInfo? directoryInfo)
+    {
+        var root = directoryInfo?.FullName ?? Directory.GetCurrentDirectory();
+
+        if (!Directory.Exists(root))
+        {
+            Console.WriteLine($"Directory does not exist: {root}");
+            return;
+        }
+        
+        Flatten(root);
+    }
+
+    private static void Flatten(string root)
     {
         // Recurse first so we process deepest dirs before parents
         foreach (var dir in Directory.GetDirectories(root))
         {
-            FlattenSingleFileDirectories(dir);
+            Flatten(dir);
 
             var files = Directory.GetFiles(dir);
             var subdirs = Directory.GetDirectories(dir);

@@ -19,4 +19,8 @@
         <SelfContained>true</SelfContained>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="System.CommandLine" Version="2.0.0" />
+    </ItemGroup>
+
 </Project>
