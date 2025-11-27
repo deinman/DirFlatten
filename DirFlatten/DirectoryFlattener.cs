@@ -2,7 +2,7 @@ namespace DirFlatten;
 
 public static class DirectoryFlattener
 {
-    public static void FlattenSingleFileDirectories(DirectoryInfo? directoryInfo)
+    public static void FlattenSingleFileDirectories(DirectoryInfo? directoryInfo, int? maxDepth = null)
     {
         var root = directoryInfo?.FullName ?? Directory.GetCurrentDirectory();
 
@@ -12,15 +12,19 @@ public static class DirectoryFlattener
             return;
         }
         
-        Flatten(root);
+        Flatten(root, maxDepth, 0);
     }
 
-    private static void Flatten(string root)
+    private static void Flatten(string root, int? maxDepth, int currentDepth)
     {
         // Recurse first so we process deepest dirs before parents
         foreach (var dir in Directory.GetDirectories(root))
         {
-            Flatten(dir);
+            // Only recurse further if we haven't hit the depth limit (if any)
+            if (!maxDepth.HasValue || currentDepth < maxDepth.Value)
+            {
+                Flatten(dir, maxDepth, currentDepth + 1);
+            }
 
             var files = Directory.GetFiles(dir);
             var subdirs = Directory.GetDirectories(dir);
