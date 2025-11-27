@@ -81,7 +81,6 @@ jobs:
           
           tar -czf "artifacts/DirFlatten-v$version-linux-x64.tar.gz" -C temp-x64 .
           
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

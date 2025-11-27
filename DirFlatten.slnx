@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/SolutionItems/">
+    <File Path=".github\workflows\build.yml" />
+    <File Path="README.md" />
+  </Folder>
   <Project Path="DirFlatten.Tests/DirFlatten.Tests.csproj" />
   <Project Path="DirFlatten/DirFlatten.csproj" />
 </Solution>
